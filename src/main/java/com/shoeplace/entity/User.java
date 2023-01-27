@@ -5,21 +5,26 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Users extends BaseEntity{
+@Table(name = "users")
+public class User extends BaseEntity {
 
 	@Id
 	@GeneratedValue
 	private Long userId;
 
-	private String nickName;
+	private String loginId;
+	private String nickname;
 	private String password;
 	private String phoneNumber;
 	private boolean emailAuthYn;
