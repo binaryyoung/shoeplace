@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.shoeplace.exception.UserBusinessException;
+import com.shoeplace.exception.UserErrorCode;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,4 +37,12 @@ public class User extends BaseEntity {
 
 	@Enumerated(value = EnumType.STRING)
 	private UserStatus status;
+
+	public boolean approveEmailAuth() {
+		if (emailAuthYn) {
+			throw new UserBusinessException(UserErrorCode.ALREADY_AUTHENTICATED_EMAIL_ACCOUNT);
+		}
+		status = UserStatus.AUTHENTICATED;
+		return emailAuthYn = true;
+	}
 }
