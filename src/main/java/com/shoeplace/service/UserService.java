@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final MailComponent mailComponent;
 	private final RedisTemplate redisTemplate;
+	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public String createUser(UserSignUpDto.Request request) {
@@ -41,7 +43,7 @@ public class UserService {
 		userRepository.save(User.builder()
 			.loginId(request.getLoginId())
 			.nickname(request.getNickname())
-			.password(request.getPassword())
+			.password(passwordEncoder.encode(request.getPassword()))
 			.emailAuthYn(false)
 			.role(UserRole.USER)
 			.status(UserStatus.UNAUTHENTICATED)

@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.shoeplace.common.MailComponent;
 import com.shoeplace.dto.UserSignUpDto;
@@ -38,6 +39,9 @@ class UserServiceTest {
 
 	@Mock
 	ValueOperations valueOperations;
+
+	@Mock
+	PasswordEncoder passwordEncoder;
 
 	@Test
 	void createUserSuccess() {
