@@ -38,11 +38,10 @@ public class User extends BaseEntity {
 	@Enumerated(value = EnumType.STRING)
 	private UserStatus status;
 
-	public boolean approveEmailAuth() {
+	public void approveEmailAuth() {
 		if (emailAuthYn) {
 			throw new UserBusinessException(UserErrorCode.ALREADY_AUTHENTICATED_EMAIL_ACCOUNT);
 		}
 		status = UserStatus.AUTHENTICATED;
-		return emailAuthYn = true;
 	}
 }

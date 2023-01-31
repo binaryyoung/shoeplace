@@ -42,7 +42,7 @@ class UserControllerTest {
 			.phoneNumber("01012341234")
 			.build();
 
-		given(userService.createUser(request)).willReturn(loginId);
+		given(userService.createUser(request)).willReturn(new UserSignUpDto.Response(loginId));
 
 		//when
 		//then
@@ -65,7 +65,7 @@ class UserControllerTest {
 			.phoneNumber("01012341234")
 			.build();
 
-		given(userService.createUser(request)).willReturn(loginId);
+		given(userService.createUser(request)).willReturn(new UserSignUpDto.Response(loginId));
 
 		//when
 		//then

@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,10 +25,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class UserService {
-	private static final String mailAuthSubjectStr = "shoeplace 메일 인증을 진행해주세요.";
-	private static final String mailAuthTextStrBegin = "<p>fastlms 사이트 가입을 축하드립니다.<p><p>아래 링크를 클릭하셔서 가입을 완료 하세요.</p>"
-		+ "<div><a target='_blank' href='http://localhost:8080/user/email-auth?id=";
-	private static final String mailAuthTextStrEnd = "'> 가입 완료 </a></div>;";
+
+	private final String mailAuthSubjectStr = "shoeplace 메일 인증을 진행해주세요.";
+
+	@Value("${spring.main.url}")
+	private String url;
+
+	private static final String mailAuthTextStr1 = "<p>shoeplace 사이트 가입을 축하드립니다.<p><p>아래 링크를 클릭하셔서 가입을 완료 하세요.</p>"
+		+ "<div><a target='_blank' href='";
+	private static final String mailAuthTextStr2 = "/user/email-auth?id=";
+	private static final String mailAuthTextStr3 = "'> 가입 완료 </a></div>;";
 
 	private final UserRepository userRepository;
 	private final MailComponent mailComponent;
@@ -35,7 +42,7 @@ public class UserService {
 	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
-	public String createUser(UserSignUpDto.Request request) {
+	public UserSignUpDto.Response createUser(UserSignUpDto.Request request) {
 		if (userRepository.findByLoginId(request.getLoginId()).isPresent()) {
 			throw new UserBusinessException(UserErrorCode.DUPLICATED_LOGIN_ID);
 		}
@@ -56,9 +63,9 @@ public class UserService {
 		redisTemplate.expire(uuid, 1, TimeUnit.DAYS);
 
 		mailComponent.sendMail(request.getLoginId(), mailAuthSubjectStr,
-			mailAuthTextStrBegin + uuid + mailAuthTextStrEnd);
+			mailAuthTextStr1 + url + mailAuthTextStr2 + uuid + mailAuthTextStr3);
 
-		return request.getLoginId();
+		return new UserSignUpDto.Response(request.getLoginId());
 	}
 
 	@Transactional

@@ -66,10 +66,10 @@ class UserServiceTest {
 		given(redisTemplate.opsForValue()).willReturn(valueOperations);
 
 		//when
-		String loginId = userService.createUser(dto);
+		UserSignUpDto.Response response = userService.createUser(dto);
 
 		//then
-		assertEquals(dto.getLoginId(), loginId);
+		assertEquals(dto.getLoginId(), response.getLoginId());
 	}
 
 	@Test
