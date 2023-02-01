@@ -1,5 +1,5 @@
 package com.shoeplace.entity;
 
 public enum UserStatus {
-	AUTHENTICATED, UNAUTHENTICATED, SUSPENDED
+	AUTHENTICATED, UNAUTHENTICATED, SUSPENDED, WITHDRAW
 }
