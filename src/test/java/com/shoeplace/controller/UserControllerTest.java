@@ -1,6 +1,5 @@
 package com.shoeplace.controller;
 
-import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.DisplayName;
@@ -42,15 +41,12 @@ class UserControllerTest {
 			.phoneNumber("01012341234")
 			.build();
 
-		given(userService.createUser(request)).willReturn(new UserSignUpDto.Response(loginId));
-
 		//when
 		//then
 		mockMvc.perform(MockMvcRequestBuilders.post("/user")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(request)))
-			.andExpect(status().isCreated())
-			.andExpect(jsonPath("$.loginId").value(loginId));
+			.andExpect(status().isCreated());
 	}
 
 	@Test
@@ -64,8 +60,6 @@ class UserControllerTest {
 			.password("1234")
 			.phoneNumber("01012341234")
 			.build();
-
-		given(userService.createUser(request)).willReturn(new UserSignUpDto.Response(loginId));
 
 		//when
 		//then

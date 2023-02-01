@@ -22,9 +22,9 @@ public class UserController {
 	private final UserService userService;
 
 	@PostMapping("/user")
-	public ResponseEntity<UserSignUpDto.Response> signUpUser(
+	public ResponseEntity<?> signUpUser(
 		@RequestBody @Valid UserSignUpDto.Request request) {
-		return new ResponseEntity<>(userService.createUser(request), HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@GetMapping("/user/email-auth")

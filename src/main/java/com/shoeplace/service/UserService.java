@@ -26,23 +26,21 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UserService {
 
-	private final String mailAuthSubjectStr = "shoeplace 메일 인증을 진행해주세요.";
-
-	@Value("${spring.main.url}")
-	private String url;
-
-	private static final String mailAuthTextStr1 = "<p>shoeplace 사이트 가입을 축하드립니다.<p><p>아래 링크를 클릭하셔서 가입을 완료 하세요.</p>"
-		+ "<div><a target='_blank' href='";
-	private static final String mailAuthTextStr2 = "/user/email-auth?id=";
-	private static final String mailAuthTextStr3 = "'> 가입 완료 </a></div>;";
+	private static final String MAIL_AUTH_SUBJECT = "shoeplace 메일 인증을 진행해주세요.";
+	private static final String MAIL_AUTH_TEXT = "<p>shoeplace 사이트 가입을 축하드립니다.<p>"
+		+ "<p>아래 링크를 클릭하셔서 가입을 완료 하세요.</p>"
+		+ "<div><a target='_blank' href='%s/user/email-auth?id=%s'>링크</a></div>;";
 
 	private final UserRepository userRepository;
 	private final MailComponent mailComponent;
 	private final RedisTemplate redisTemplate;
 	private final PasswordEncoder passwordEncoder;
 
+	@Value("${spring.main.url}")
+	private String url;
+
 	@Transactional
-	public UserSignUpDto.Response createUser(UserSignUpDto.Request request) {
+	public void createUser(UserSignUpDto.Request request) {
 		if (userRepository.findByLoginId(request.getLoginId()).isPresent()) {
 			throw new UserBusinessException(UserErrorCode.DUPLICATED_LOGIN_ID);
 		}
@@ -62,10 +60,7 @@ public class UserService {
 		valueOperations.set(uuid, request.getLoginId());
 		redisTemplate.expire(uuid, 1, TimeUnit.DAYS);
 
-		mailComponent.sendMail(request.getLoginId(), mailAuthSubjectStr,
-			mailAuthTextStr1 + url + mailAuthTextStr2 + uuid + mailAuthTextStr3);
-
-		return new UserSignUpDto.Response(request.getLoginId());
+		mailComponent.sendMail(request.getLoginId(), MAIL_AUTH_SUBJECT, String.format(MAIL_AUTH_TEXT, url, uuid));
 	}
 
 	@Transactional
