@@ -18,25 +18,25 @@ import com.shoeplace.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RestController
+@RestController("/user")
 public class UserController {
 
 	private final UserService userService;
 
-	@PostMapping("/user")
+	@PostMapping
 	public ResponseEntity<?> signUpUser(
 		@RequestBody @Valid UserSignUpDTO.Request request) {
 		userService.createUser(request);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@GetMapping("/user/email-auth")
+	@GetMapping("email-auth")
 	public ResponseEntity<?> authEmail(@RequestParam String id) {
 		userService.authEmail(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@GetMapping("/user")
+	@GetMapping
 	public ResponseEntity<UserInfoDTO.Response> inquireMemberInfo() {
 		String loginId = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return ResponseEntity.ok(userService.inquireUserInfo(loginId));
