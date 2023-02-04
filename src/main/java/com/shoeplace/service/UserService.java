@@ -50,7 +50,7 @@ public class UserService {
 			.nickname(request.getNickname())
 			.password(passwordEncoder.encode(request.getPassword()))
 			.emailAuthYn(false)
-			.role(UserRole.USER)
+			.role(UserRole.ROLE_USER)
 			.status(UserStatus.UNAUTHENTICATED)
 			.build());
 

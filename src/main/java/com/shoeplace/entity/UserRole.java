@@ -1,5 +1,5 @@
 package com.shoeplace.entity;
 
 public enum UserRole {
-	ADMIN, USER
+	ROLE_ADMIN, ROLE_USER
 }
