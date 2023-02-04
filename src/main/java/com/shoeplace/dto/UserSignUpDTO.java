@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class UserSignUpDto {
+public class UserSignUpDTO {
 
 	@Builder
 	@Getter

@@ -16,11 +16,13 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.shoeplace.common.MailComponent;
-import com.shoeplace.dto.UserSignUpDto;
+import com.shoeplace.dto.UserInfoDTO;
+import com.shoeplace.dto.UserSignUpDTO;
 import com.shoeplace.entity.User;
 import com.shoeplace.exception.UserBusinessException;
 import com.shoeplace.exception.UserErrorCode;
 import com.shoeplace.repository.UserRepository;
+import com.shoeplace.service.user.UserService;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -56,7 +58,7 @@ class UserServiceTest {
 		given(userRepository.save(any()))
 			.willReturn(user);
 
-		UserSignUpDto.Request dto = UserSignUpDto.Request.builder()
+		UserSignUpDTO.Request dto = UserSignUpDTO.Request.builder()
 			.loginId("test@test.com")
 			.nickname("nick")
 			.password("1234")
@@ -83,7 +85,7 @@ class UserServiceTest {
 		given(userRepository.findByLoginId(any()))
 			.willReturn(Optional.of(user));
 
-		UserSignUpDto.Request dto = UserSignUpDto.Request.builder()
+		UserSignUpDTO.Request dto = UserSignUpDTO.Request.builder()
 			.loginId("test@test.com")
 			.nickname("nick")
 			.password("1234")
@@ -163,5 +165,28 @@ class UserServiceTest {
 
 		//then
 		assertEquals(UserErrorCode.ALREADY_AUTHENTICATED_EMAIL_ACCOUNT, exception.getErrorCode());
+	}
+
+	@Test
+	void inquireUserInfoSuccess() throws Exception {
+		//given
+		String loginId = "test@test.com";
+
+		User user = User.builder()
+			.loginId(loginId)
+			.nickname("nick")
+			.password("1234")
+			.phoneNumber("01012341234")
+			.build();
+
+		given(userRepository.findByLoginId(loginId)).willReturn(Optional.of(user));
+
+		//when
+		UserInfoDTO.Response response = userService.inquireUserInfo(loginId);
+
+		//then
+		assertEquals(user.getLoginId(), response.getLoginId());
+		assertEquals(user.getNickname(), response.getNickname());
+		assertEquals(user.getPhoneNumber(), response.getPhoneNumber());
 	}
 }

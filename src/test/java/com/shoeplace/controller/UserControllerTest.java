@@ -13,9 +13,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shoeplace.dto.UserSignUpDto;
+import com.shoeplace.dto.UserSignUpDTO;
 import com.shoeplace.security.config.SecurityConfig;
-import com.shoeplace.service.UserService;
+import com.shoeplace.service.user.UserService;
 
 @WebMvcTest(value = UserController.class)
 @Import(SecurityConfig.class)
@@ -34,7 +34,7 @@ class UserControllerTest {
 	void signUpUserSuccess() throws Exception {
 		//given
 		String loginId = "loginId@id.com";
-		UserSignUpDto.Request request = UserSignUpDto.Request.builder()
+		UserSignUpDTO.Request request = UserSignUpDTO.Request.builder()
 			.loginId(loginId)
 			.nickname("nick")
 			.password("1234")
@@ -54,7 +54,7 @@ class UserControllerTest {
 	void signUpUserFail() throws Exception {
 		//given
 		String loginId = "notEmail";
-		UserSignUpDto.Request request = UserSignUpDto.Request.builder()
+		UserSignUpDTO.Request request = UserSignUpDTO.Request.builder()
 			.loginId(loginId)
 			.nickname("nick")
 			.password("1234")

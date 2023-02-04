@@ -1,4 +1,4 @@
-package com.shoeplace.service;
+package com.shoeplace.service.user;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shoeplace.common.MailComponent;
-import com.shoeplace.dto.UserSignUpDto;
+import com.shoeplace.dto.UserInfoDTO;
+import com.shoeplace.dto.UserSignUpDTO;
 import com.shoeplace.entity.User;
 import com.shoeplace.entity.UserRole;
 import com.shoeplace.entity.UserStatus;
@@ -40,7 +41,7 @@ public class UserService {
 	private String url;
 
 	@Transactional
-	public void createUser(UserSignUpDto.Request request) {
+	public void createUser(UserSignUpDTO.Request request) {
 		if (userRepository.findByLoginId(request.getLoginId()).isPresent()) {
 			throw new UserBusinessException(UserErrorCode.DUPLICATED_LOGIN_ID);
 		}
@@ -75,5 +76,12 @@ public class UserService {
 		);
 
 		user.approveEmailAuth();
+	}
+
+	public UserInfoDTO.Response inquireUserInfo(String loginId) {
+		User user = userRepository.findByLoginId(loginId).orElseThrow(
+			() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND)
+		);
+		return UserInfoDTO.Response.of(user);
 	}
 }

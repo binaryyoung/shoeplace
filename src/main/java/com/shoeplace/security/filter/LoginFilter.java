@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shoeplace.dto.UserSignInDto;
+import com.shoeplace.dto.UserSignInDTO;
 import com.shoeplace.exception.ErrorDto;
 import com.shoeplace.security.jwt.JwtProvider;
 import com.shoeplace.security.jwt.TokenType;
@@ -37,7 +37,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private final ObjectMapper objectMapper;
 	private final JwtProvider jwtProvider;
-	
+
 	public LoginFilter(@Lazy AuthenticationManager authenticationManager,
 		ObjectMapper objectMapper, JwtProvider jwtProvider, JwtProvider jwtProvider1) {
 		super("/login", authenticationManager);
@@ -49,8 +49,8 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws
 		AuthenticationException {
 		try {
-			UserSignInDto.Request signInDto = objectMapper.readValue(request.getInputStream(),
-				UserSignInDto.Request.class);
+			UserSignInDTO.Request signInDto = objectMapper.readValue(request.getInputStream(),
+				UserSignInDTO.Request.class);
 
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(signInDto.getUsername(),
 				signInDto.getPassword());
