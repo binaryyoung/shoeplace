@@ -45,5 +45,6 @@ public class User extends BaseEntity {
 			throw new UserBusinessException(UserErrorCode.ALREADY_AUTHENTICATED_EMAIL_ACCOUNT);
 		}
 		status = UserStatus.AUTHENTICATED;
+		emailAuthYn = true;
 	}
 }
