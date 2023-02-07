@@ -1,7 +1,9 @@
 package com.shoeplace.dto;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+
+import com.shoeplace.validation.PhoneNumber;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,17 +19,16 @@ public class UserSignUpDTO {
 	@NoArgsConstructor
 	@EqualsAndHashCode
 	public static class Request {
-		@NotNull
 		@Email
 		private String loginId;
 
-		@NotNull
+		@NotBlank
 		private String nickname;
 
-		@NotNull
+		@NotBlank
 		private String password;
 
-		@NotNull
+		@PhoneNumber
 		private String phoneNumber;
 	}
 }
