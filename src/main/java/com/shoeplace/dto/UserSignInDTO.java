@@ -1,5 +1,7 @@
 package com.shoeplace.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +14,9 @@ public class UserSignInDTO {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Request {
+		@NotBlank
 		private String username;
+		@NotBlank
 		private String password;
 	}
 }
