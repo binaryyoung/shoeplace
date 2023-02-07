@@ -65,6 +65,7 @@ public class SecurityConfig {
 			.mvcMatchers(POST, "/login").permitAll()
 			.mvcMatchers(GET, "/user").hasRole("USER")
 			.mvcMatchers(PATCH, "/user/**").hasRole("USER")
+			.mvcMatchers(DELETE, "/user/**").hasRole("USER")
 			.anyRequest().authenticated();
 
 		return http.build();

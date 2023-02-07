@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.shoeplace.dto.UserChangePasswordDTO;
 import com.shoeplace.dto.UserInfoDTO;
 import com.shoeplace.dto.UserPhoneNumberDTO;
 import com.shoeplace.dto.UserSignUpDTO;
+import com.shoeplace.dto.UserWithdrawDTO;
 import com.shoeplace.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -62,6 +64,12 @@ public class UserController {
 	@PatchMapping("/password")
 	public ResponseEntity<?> changePassword(@RequestBody @Valid UserChangePasswordDTO.Request request) {
 		userService.changePassword(getLoginId(), request.getBeforePassword(), request.getNewPassword());
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@DeleteMapping("/withdraw")
+	public ResponseEntity<?> withdraw(@RequestBody @Valid UserWithdrawDTO.Request request) {
+		userService.withdraw(getLoginId(), request.getPassword());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

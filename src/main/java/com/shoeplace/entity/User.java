@@ -59,4 +59,8 @@ public class User extends BaseEntity {
 	public void changePassword(String newPassword) {
 		password = newPassword;
 	}
+
+	public void withdraw() {
+		status = UserStatus.WITHDRAW;
+	}
 }

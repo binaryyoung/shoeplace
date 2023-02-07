@@ -103,11 +103,18 @@ public class UserService {
 	@Transactional
 	public void changePassword(String loginId, String beforePassword, String newPassword) {
 		User user = getUserById(loginId);
-
 		if (!passwordEncoder.matches(beforePassword, user.getPassword())) {
 			throw new UserBusinessException(UserErrorCode.PASSWORD_NOT_MATCH);
 		}
-
 		user.changePassword(passwordEncoder.encode(newPassword));
+	}
+
+	@Transactional
+	public void withdraw(String loginId, String password) {
+		User user = getUserById(loginId);
+		if (!passwordEncoder.matches(password, user.getPassword())) {
+			throw new UserBusinessException(UserErrorCode.PASSWORD_NOT_MATCH);
+		}
+		user.withdraw();
 	}
 }
