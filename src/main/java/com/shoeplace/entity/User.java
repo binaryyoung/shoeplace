@@ -47,4 +47,16 @@ public class User extends BaseEntity {
 		status = UserStatus.AUTHENTICATED;
 		emailAuthYn = true;
 	}
+
+	public void changeNickName(String newNickName) {
+		nickname = newNickName;
+	}
+
+	public void changePhoneNumber(String newPhoneNumber) {
+		phoneNumber = newPhoneNumber;
+	}
+
+	public void changePassword(String newPassword) {
+		password = newPassword;
+	}
 }
