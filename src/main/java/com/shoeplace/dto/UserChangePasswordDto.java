@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class UserChangePasswordDTO {
+public class UserChangePasswordDto {
 	@Getter
 	@AllArgsConstructor
 	@NoArgsConstructor

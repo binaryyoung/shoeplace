@@ -1,18 +1,17 @@
 package com.shoeplace.dto;
 
-import com.shoeplace.validation.PhoneNumber;
+import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class UserPhoneNumberDTO {
-
+public class UserWithdrawDto {
 	@Getter
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Request {
-		@PhoneNumber
-		private String phoneNumber;
+		@NotBlank
+		private String password;
 	}
 }

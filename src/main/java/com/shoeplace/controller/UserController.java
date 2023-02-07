@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shoeplace.dto.UserChangeNicknameDTO;
-import com.shoeplace.dto.UserChangePasswordDTO;
-import com.shoeplace.dto.UserInfoDTO;
-import com.shoeplace.dto.UserPhoneNumberDTO;
-import com.shoeplace.dto.UserSignUpDTO;
-import com.shoeplace.dto.UserWithdrawDTO;
+import com.shoeplace.dto.UserChangeNicknameDto;
+import com.shoeplace.dto.UserChangePasswordDto;
+import com.shoeplace.dto.UserInfoDto;
+import com.shoeplace.dto.UserPhoneNumberDto;
+import com.shoeplace.dto.UserSignUpDto;
+import com.shoeplace.dto.UserWithdrawDto;
 import com.shoeplace.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class UserController {
 	private final UserService userService;
 
 	@PostMapping
-	public ResponseEntity<?> signUpUser(@RequestBody @Valid UserSignUpDTO.Request request) {
+	public ResponseEntity<?> signUpUser(@RequestBody @Valid UserSignUpDto.Request request) {
 		userService.createUser(request);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
@@ -45,30 +45,30 @@ public class UserController {
 	}
 
 	@GetMapping
-	public ResponseEntity<UserInfoDTO.Response> inquireMemberInfo() {
+	public ResponseEntity<UserInfoDto.Response> inquireMemberInfo() {
 		return ResponseEntity.ok(userService.inquireUserInfo(getLoginId()));
 	}
 
 	@PatchMapping("/nickname")
-	public ResponseEntity<?> changeNickName(@RequestBody @Valid UserChangeNicknameDTO.Request request) {
+	public ResponseEntity<?> changeNickName(@RequestBody @Valid UserChangeNicknameDto.Request request) {
 		userService.changeNickName(getLoginId(), request.getNickname());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PatchMapping("/phoneNumber")
-	public ResponseEntity<?> changePhoneNumber(@RequestBody @Valid UserPhoneNumberDTO.Request request) {
+	public ResponseEntity<?> changePhoneNumber(@RequestBody @Valid UserPhoneNumberDto.Request request) {
 		userService.changePhoneNumber(getLoginId(), request.getPhoneNumber());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PatchMapping("/password")
-	public ResponseEntity<?> changePassword(@RequestBody @Valid UserChangePasswordDTO.Request request) {
+	public ResponseEntity<?> changePassword(@RequestBody @Valid UserChangePasswordDto.Request request) {
 		userService.changePassword(getLoginId(), request.getBeforePassword(), request.getNewPassword());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@DeleteMapping("/withdraw")
-	public ResponseEntity<?> withdraw(@RequestBody @Valid UserWithdrawDTO.Request request) {
+	public ResponseEntity<?> withdraw(@RequestBody @Valid UserWithdrawDto.Request request) {
 		userService.withdraw(getLoginId(), request.getPassword());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

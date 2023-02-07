@@ -1,17 +1,18 @@
 package com.shoeplace.dto;
 
-import javax.validation.constraints.NotBlank;
+import com.shoeplace.validation.PhoneNumber;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class UserChangeNicknameDTO {
+public class UserPhoneNumberDto {
+
 	@Getter
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class Request {
-		@NotBlank
-		private String nickname;
+		@PhoneNumber
+		private String phoneNumber;
 	}
 }

@@ -16,8 +16,8 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.shoeplace.common.MailComponent;
-import com.shoeplace.dto.UserInfoDTO;
-import com.shoeplace.dto.UserSignUpDTO;
+import com.shoeplace.dto.UserInfoDto;
+import com.shoeplace.dto.UserSignUpDto;
 import com.shoeplace.entity.User;
 import com.shoeplace.exception.UserBusinessException;
 import com.shoeplace.exception.UserErrorCode;
@@ -58,7 +58,7 @@ class UserServiceTest {
 		given(userRepository.save(any()))
 			.willReturn(user);
 
-		UserSignUpDTO.Request dto = UserSignUpDTO.Request.builder()
+		UserSignUpDto.Request dto = UserSignUpDto.Request.builder()
 			.loginId("test@test.com")
 			.nickname("nick")
 			.password("1234")
@@ -85,7 +85,7 @@ class UserServiceTest {
 		given(userRepository.findByLoginId(any()))
 			.willReturn(Optional.of(user));
 
-		UserSignUpDTO.Request dto = UserSignUpDTO.Request.builder()
+		UserSignUpDto.Request dto = UserSignUpDto.Request.builder()
 			.loginId("test@test.com")
 			.nickname("nick")
 			.password("1234")
@@ -182,7 +182,7 @@ class UserServiceTest {
 		given(userRepository.findByLoginId(loginId)).willReturn(Optional.of(user));
 
 		//when
-		UserInfoDTO.Response response = userService.inquireUserInfo(loginId);
+		UserInfoDto.Response response = userService.inquireUserInfo(loginId);
 
 		//then
 		assertEquals(user.getLoginId(), response.getLoginId());

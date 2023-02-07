@@ -5,7 +5,7 @@ import com.shoeplace.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 
-public class UserInfoDTO {
+public class UserInfoDto {
 
 	@Getter
 	@Builder
@@ -14,7 +14,7 @@ public class UserInfoDTO {
 		private String nickname;
 		private String phoneNumber;
 
-		public static UserInfoDTO.Response of(User user) {
+		public static UserInfoDto.Response of(User user) {
 			return Response.builder()
 				.loginId(user.getLoginId())
 				.nickname(user.getNickname())
