@@ -3,10 +3,14 @@ package com.shoeplace.service.address;
 import static com.shoeplace.exception.ErrorCode.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shoeplace.dto.AddressCreateDto;
+import com.shoeplace.dto.AddressInquireDto;
+import com.shoeplace.dto.AddressUpdateDto;
 import com.shoeplace.entity.Address;
 import com.shoeplace.entity.User;
 import com.shoeplace.exception.BusinessException;
@@ -22,6 +26,7 @@ public class AddressService {
 	private final AddressRepository addressRepository;
 	private final UserService userService;
 
+	@Transactional
 	public void createService(AddressCreateDto.Request request, String loginId) {
 		User user = userService.getUserById(loginId);
 		List<Address> addresses = addressRepository.findByUser(user);
@@ -44,5 +49,29 @@ public class AddressService {
 			.phoneNumber(request.getPhoneNumber())
 			.user(user)
 			.build());
+	}
+
+	@Transactional(readOnly = true)
+	public List<AddressInquireDto.Response> inquireAddress(String loginId) {
+		User user = userService.getUserById(loginId);
+		return addressRepository.findByUserOrderByAddressId(user).stream()
+			.map(AddressInquireDto.Response::of)
+			.collect(Collectors.toList());
+	}
+
+	@Transactional
+	public void updateAddress(AddressUpdateDto.Request request, String loginId) {
+		Address address = addressRepository.findById(request.getId()).orElseThrow(
+			() -> new BusinessException(ADDRESS_NOT_FOUND)
+		);
+		address.changeInfo(request);
+	}
+
+	@Transactional
+	public void deleteAddress(long id) {
+		Address address = addressRepository.findById(id).orElseThrow(
+			() -> new BusinessException(ADDRESS_NOT_FOUND)
+		);
+		addressRepository.delete(address);
 	}
 }

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.shoeplace.dto.AddressUpdateDto;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,4 +37,11 @@ public class Address extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	public void changeInfo(AddressUpdateDto.Request request) {
+		this.address1 = request.getAddress1();
+		this.address2 = request.getAddress2();
+		this.receiverName = request.getReceiverName();
+		this.phoneNumber = request.getPhoneNumber();
+	}
 }

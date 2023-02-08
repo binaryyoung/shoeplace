@@ -11,4 +11,8 @@ import com.shoeplace.entity.User;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 	List<Address> findByUser(User user);
+
+	List<Address> findByUserOrderByAddressId(User user);
+
+	boolean existsByUserAndNickname(String loginId, String nickname);
 }
