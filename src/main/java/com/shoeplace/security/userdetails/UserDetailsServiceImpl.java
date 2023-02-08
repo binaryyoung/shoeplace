@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.shoeplace.entity.User;
-import com.shoeplace.exception.UserErrorCode;
+import com.shoeplace.exception.ErrorCode;
 import com.shoeplace.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -23,9 +23,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByLoginId(username)
-			.orElseThrow(() -> new UsernameNotFoundException(UserErrorCode.USER_NOT_FOUND.getMessage()));
+			.orElseThrow(() -> new UsernameNotFoundException(ErrorCode.USER_NOT_FOUND.getMessage()));
 
-		if(!user.isEmailAuthYn()) {
+		if (!user.isEmailAuthYn()) {
 			throw new AuthenticationServiceException("이메일 인증이 처리되지 않았습니다.");
 		}
 
@@ -38,9 +38,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 
 		return UserDetailsImpl.builder()
-							.username(user.getLoginId())
-							.password(user.getPassword())
-							.role(user.getRole().name())
-							.build();
+			.username(user.getLoginId())
+			.password(user.getPassword())
+			.role(user.getRole().name())
+			.build();
 	}
 }

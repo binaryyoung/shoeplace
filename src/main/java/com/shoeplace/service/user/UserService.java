@@ -17,8 +17,8 @@ import com.shoeplace.dto.UserSignUpDto;
 import com.shoeplace.entity.User;
 import com.shoeplace.entity.UserRole;
 import com.shoeplace.entity.UserStatus;
-import com.shoeplace.exception.UserBusinessException;
-import com.shoeplace.exception.UserErrorCode;
+import com.shoeplace.exception.BusinessException;
+import com.shoeplace.exception.ErrorCode;
 import com.shoeplace.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class UserService {
 	@Transactional
 	public void createUser(UserSignUpDto.Request request) {
 		if (userRepository.findByLoginId(request.getLoginId()).isPresent()) {
-			throw new UserBusinessException(UserErrorCode.DUPLICATED_LOGIN_ID);
+			throw new BusinessException(ErrorCode.DUPLICATED_LOGIN_ID);
 		}
 
 		userRepository.save(User.builder()
@@ -69,7 +69,7 @@ public class UserService {
 		ValueOperations valueOperations = redisTemplate.opsForValue();
 
 		String loginId = (String)Optional.ofNullable(valueOperations.getAndDelete(id))
-			.orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_AUTHENTICATION_TIMEOUT));
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_AUTHENTICATION_TIMEOUT));
 
 		User user = getUserById(loginId);
 
@@ -82,9 +82,9 @@ public class UserService {
 		return UserInfoDto.Response.of(user);
 	}
 
-	private User getUserById(String loginId) {
+	public User getUserById(String loginId) {
 		return userRepository.findByLoginId(loginId).orElseThrow(
-			() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND)
+			() -> new BusinessException(ErrorCode.USER_NOT_FOUND)
 		);
 	}
 
@@ -104,7 +104,7 @@ public class UserService {
 	public void changePassword(String loginId, String beforePassword, String newPassword) {
 		User user = getUserById(loginId);
 		if (!passwordEncoder.matches(beforePassword, user.getPassword())) {
-			throw new UserBusinessException(UserErrorCode.PASSWORD_NOT_MATCH);
+			throw new BusinessException(ErrorCode.PASSWORD_NOT_MATCH);
 		}
 		user.changePassword(passwordEncoder.encode(newPassword));
 	}
@@ -113,7 +113,7 @@ public class UserService {
 	public void withdraw(String loginId, String password) {
 		User user = getUserById(loginId);
 		if (!passwordEncoder.matches(password, user.getPassword())) {
-			throw new UserBusinessException(UserErrorCode.PASSWORD_NOT_MATCH);
+			throw new BusinessException(ErrorCode.PASSWORD_NOT_MATCH);
 		}
 		user.withdraw();
 	}

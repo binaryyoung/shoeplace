@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import lombok.Getter;
 
 @Getter
-public enum UserErrorCode {
+public enum ErrorCode {
 
 	DUPLICATED_LOGIN_ID(HttpStatus.CONFLICT, "이미 존재하는 이메일 계정입니다."),
 	USER_AUTHENTICATION_TIMEOUT(HttpStatus.REQUEST_TIMEOUT, "인증 시간이 만료되었습니다."),
@@ -16,7 +16,7 @@ public enum UserErrorCode {
 	private HttpStatus httpStatus;
 	private String message;
 
-	UserErrorCode(HttpStatus httpStatus, String message) {
+	ErrorCode(HttpStatus httpStatus, String message) {
 		this.httpStatus = httpStatus;
 		this.message = message;
 	}

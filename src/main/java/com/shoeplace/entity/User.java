@@ -7,8 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.shoeplace.exception.UserBusinessException;
-import com.shoeplace.exception.UserErrorCode;
+import com.shoeplace.exception.BusinessException;
+import com.shoeplace.exception.ErrorCode;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -42,7 +42,7 @@ public class User extends BaseEntity {
 
 	public void approveEmailAuth() {
 		if (emailAuthYn) {
-			throw new UserBusinessException(UserErrorCode.ALREADY_AUTHENTICATED_EMAIL_ACCOUNT);
+			throw new BusinessException(ErrorCode.ALREADY_AUTHENTICATED_EMAIL_ACCOUNT);
 		}
 		status = UserStatus.AUTHENTICATED;
 		emailAuthYn = true;

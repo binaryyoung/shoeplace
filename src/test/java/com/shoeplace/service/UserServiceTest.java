@@ -19,8 +19,8 @@ import com.shoeplace.common.MailComponent;
 import com.shoeplace.dto.UserInfoDto;
 import com.shoeplace.dto.UserSignUpDto;
 import com.shoeplace.entity.User;
-import com.shoeplace.exception.UserBusinessException;
-import com.shoeplace.exception.UserErrorCode;
+import com.shoeplace.exception.BusinessException;
+import com.shoeplace.exception.ErrorCode;
 import com.shoeplace.repository.UserRepository;
 import com.shoeplace.service.user.UserService;
 
@@ -93,11 +93,11 @@ class UserServiceTest {
 			.build();
 
 		//when
-		UserBusinessException exception = assertThrows(UserBusinessException.class,
+		BusinessException exception = assertThrows(BusinessException.class,
 			() -> userService.createUser(dto));
 
 		//then
-		assertEquals(UserErrorCode.DUPLICATED_LOGIN_ID, exception.getErrorCode());
+		assertEquals(ErrorCode.DUPLICATED_LOGIN_ID, exception.getErrorCode());
 	}
 
 	@Test
@@ -133,11 +133,11 @@ class UserServiceTest {
 		given(valueOperations.getAndDelete(uuid)).willReturn(null);
 
 		//when
-		UserBusinessException exception = assertThrows(UserBusinessException.class,
+		BusinessException exception = assertThrows(BusinessException.class,
 			() -> userService.authEmail(uuid));
 
 		//then
-		assertEquals(UserErrorCode.USER_AUTHENTICATION_TIMEOUT, exception.getErrorCode());
+		assertEquals(ErrorCode.USER_AUTHENTICATION_TIMEOUT, exception.getErrorCode());
 	}
 
 	@Test
@@ -160,11 +160,11 @@ class UserServiceTest {
 		given(userRepository.findByLoginId(loginId)).willReturn(Optional.of(user));
 
 		//when
-		UserBusinessException exception = assertThrows(UserBusinessException.class,
+		BusinessException exception = assertThrows(BusinessException.class,
 			() -> userService.authEmail(uuid));
 
 		//then
-		assertEquals(UserErrorCode.ALREADY_AUTHENTICATED_EMAIL_ACCOUNT, exception.getErrorCode());
+		assertEquals(ErrorCode.ALREADY_AUTHENTICATED_EMAIL_ACCOUNT, exception.getErrorCode());
 	}
 
 	@Test
