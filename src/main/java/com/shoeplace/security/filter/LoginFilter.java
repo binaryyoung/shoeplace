@@ -37,7 +37,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private final ObjectMapper objectMapper;
 	private final JwtProvider jwtProvider;
-	
+
 	public LoginFilter(@Lazy AuthenticationManager authenticationManager,
 		ObjectMapper objectMapper, JwtProvider jwtProvider, JwtProvider jwtProvider1) {
 		super("/login", authenticationManager);

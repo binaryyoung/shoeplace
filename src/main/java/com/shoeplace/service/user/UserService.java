@@ -1,4 +1,4 @@
-package com.shoeplace.service;
+package com.shoeplace.service.user;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shoeplace.common.MailComponent;
+import com.shoeplace.dto.UserInfoDto;
 import com.shoeplace.dto.UserSignUpDto;
 import com.shoeplace.entity.User;
 import com.shoeplace.entity.UserRole;
@@ -70,10 +71,50 @@ public class UserService {
 		String loginId = (String)Optional.ofNullable(valueOperations.getAndDelete(id))
 			.orElseThrow(() -> new UserBusinessException(UserErrorCode.USER_AUTHENTICATION_TIMEOUT));
 
-		User user = userRepository.findByLoginId(loginId).orElseThrow(
-			() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND)
-		);
+		User user = getUserById(loginId);
 
 		user.approveEmailAuth();
+	}
+
+	@Transactional(readOnly = true)
+	public UserInfoDto.Response inquireUserInfo(String loginId) {
+		User user = getUserById(loginId);
+		return UserInfoDto.Response.of(user);
+	}
+
+	private User getUserById(String loginId) {
+		return userRepository.findByLoginId(loginId).orElseThrow(
+			() -> new UserBusinessException(UserErrorCode.USER_NOT_FOUND)
+		);
+	}
+
+	@Transactional
+	public void changeNickName(String loginId, String newNickName) {
+		User user = getUserById(loginId);
+		user.changeNickName(newNickName);
+	}
+
+	@Transactional
+	public void changePhoneNumber(String loginId, String newPhoneNumber) {
+		User user = getUserById(loginId);
+		user.changePhoneNumber(newPhoneNumber);
+	}
+
+	@Transactional
+	public void changePassword(String loginId, String beforePassword, String newPassword) {
+		User user = getUserById(loginId);
+		if (!passwordEncoder.matches(beforePassword, user.getPassword())) {
+			throw new UserBusinessException(UserErrorCode.PASSWORD_NOT_MATCH);
+		}
+		user.changePassword(passwordEncoder.encode(newPassword));
+	}
+
+	@Transactional
+	public void withdraw(String loginId, String password) {
+		User user = getUserById(loginId);
+		if (!passwordEncoder.matches(password, user.getPassword())) {
+			throw new UserBusinessException(UserErrorCode.PASSWORD_NOT_MATCH);
+		}
+		user.withdraw();
 	}
 }

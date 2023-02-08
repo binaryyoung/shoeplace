@@ -16,11 +16,13 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.shoeplace.common.MailComponent;
+import com.shoeplace.dto.UserInfoDto;
 import com.shoeplace.dto.UserSignUpDto;
 import com.shoeplace.entity.User;
 import com.shoeplace.exception.UserBusinessException;
 import com.shoeplace.exception.UserErrorCode;
 import com.shoeplace.repository.UserRepository;
+import com.shoeplace.service.user.UserService;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -163,5 +165,28 @@ class UserServiceTest {
 
 		//then
 		assertEquals(UserErrorCode.ALREADY_AUTHENTICATED_EMAIL_ACCOUNT, exception.getErrorCode());
+	}
+
+	@Test
+	void inquireUserInfoSuccess() throws Exception {
+		//given
+		String loginId = "test@test.com";
+
+		User user = User.builder()
+			.loginId(loginId)
+			.nickname("nick")
+			.password("1234")
+			.phoneNumber("01012341234")
+			.build();
+
+		given(userRepository.findByLoginId(loginId)).willReturn(Optional.of(user));
+
+		//when
+		UserInfoDto.Response response = userService.inquireUserInfo(loginId);
+
+		//then
+		assertEquals(user.getLoginId(), response.getLoginId());
+		assertEquals(user.getNickname(), response.getNickname());
+		assertEquals(user.getPhoneNumber(), response.getPhoneNumber());
 	}
 }

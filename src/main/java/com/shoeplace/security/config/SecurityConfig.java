@@ -61,10 +61,12 @@ public class SecurityConfig {
 			.and()
 			.authorizeRequests()
 			.mvcMatchers(POST, "/user").permitAll()
-			.mvcMatchers(POST, "/user/email-auth").permitAll()
+			.mvcMatchers(GET, "/user/email-auth").permitAll()
 			.mvcMatchers(POST, "/login").permitAll()
-			.mvcMatchers(GET, "/test/user").hasRole("USER")
-			.mvcMatchers(GET, "/test/admin").hasRole("ADMIN");
+			.mvcMatchers(GET, "/user").hasRole("USER")
+			.mvcMatchers(PATCH, "/user/**").hasRole("USER")
+			.mvcMatchers(DELETE, "/user/**").hasRole("USER")
+			.anyRequest().authenticated();
 
 		return http.build();
 	}

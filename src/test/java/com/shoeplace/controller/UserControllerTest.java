@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shoeplace.dto.UserSignUpDto;
 import com.shoeplace.security.config.SecurityConfig;
-import com.shoeplace.service.UserService;
+import com.shoeplace.service.user.UserService;
 
 @WebMvcTest(value = UserController.class)
 @Import(SecurityConfig.class)
