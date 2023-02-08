@@ -1,6 +1,6 @@
 package com.shoeplace.controller;
 
-import static com.shoeplace.common.UsernameComponent.*;
+import static com.shoeplace.common.UsernameUtil.*;
 
 import javax.validation.Valid;
 
