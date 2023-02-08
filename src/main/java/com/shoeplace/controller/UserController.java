@@ -1,11 +1,11 @@
 package com.shoeplace.controller;
 
+import static com.shoeplace.common.UsernameComponent.*;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -71,9 +71,5 @@ public class UserController {
 	public ResponseEntity<?> withdraw(@RequestBody @Valid UserWithdrawDto.Request request) {
 		userService.withdraw(getLoginId(), request.getPassword());
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	private String getLoginId() {
-		return ((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
 	}
 }
