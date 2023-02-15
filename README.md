@@ -11,4 +11,6 @@
 - JPA
 
 ## ERD
+- Link : https://www.erdcloud.com/d/cNh6Qshe94a2cYuaF
+
 ![shoeplace_erd](https://user-images.githubusercontent.com/48792664/218952771-a65ea3a5-f997-4ae6-bfae-f401b41433a9.png)
