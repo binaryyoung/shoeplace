@@ -24,11 +24,13 @@ public class BrandInfoDto {
 	@Builder
 	@Getter
 	public static class Response {
+		private Long brandId;
 		private String korName;
 		private String engName;
 
 		public static Response of(Brand brand) {
 			return Response.builder()
+				.brandId(brand.getBrandId())
 				.korName(brand.getKorName())
 				.engName(brand.getEngName())
 				.build();
