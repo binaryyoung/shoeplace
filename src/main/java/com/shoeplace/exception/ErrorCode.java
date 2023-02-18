@@ -17,7 +17,9 @@ public enum ErrorCode {
 	// Address error
 	ADDRESS_LIMIT_EXCEEDED(HttpStatus.BAD_REQUEST, "주소는 최대 10개까지 저장 가능합니다."),
 	DUPLICATED_ADDRESS_NICKNAME(HttpStatus.CONFLICT, "주소 별칭은 중복될 수 없습니다."),
-	ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 주소입니다.");
+	ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 주소입니다."),
+	BRAND_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 브랜드입니다."),
+	FILE_UPLOAD_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다");
 
 	private HttpStatus httpStatus;
 	private String message;
